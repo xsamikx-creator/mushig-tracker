@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Mushig in Baku</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <div id="telegramUser" class="telegram-user" hidden></div>
+    <header class="hero card">
+      <div class="topline">
+        <div>
+          <p class="eyebrow">🇦🇿 BAKU SUMMER 2026</p>
+          <h1 id="heroTitle">MUSHIG IS COMING</h1>
+        </div>
+        <button id="settingsBtn" class="icon-btn" aria-label="Настройки">⚙️</button>
+      </div>
+
+      <p id="heroSubtitle" class="muted">До прилёта осталось</p>
+      <div id="countdown" class="countdown" aria-live="polite"></div>
+      <p id="arrivalLabel" class="arrival-label"></p>
+
+      <div class="progress-wrap">
+        <div class="progress-labels">
+          <span>Подготовка к приезду</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section-head">
+        <div>
+          <p class="eyebrow">LIVE STATS</p>
+          <h2>Легендарная статистика</h2>
+        </div>
+        <button id="resetBtn" class="text-btn">Сбросить</button>
+      </section>
+
+      <section id="statsGrid" class="stats-grid"></section>
+
+      <section class="card danger-card">
+        <div class="meter-row">
+          <div>
+            <span class="meter-title">Уровень трезвости</span>
+            <small id="sobrietyText">100%</small>
+          </div>
+          <div class="meter"><div id="sobrietyBar" class="meter-fill"></div></div>
+        </div>
+        <div class="meter-row">
+          <div>
+            <span class="meter-title">Опасность вечеринки</span>
+            <small id="partyText">0%</small>
+          </div>
+          <div class="meter"><div id="partyBar" class="meter-fill hot"></div></div>
+        </div>
+      </section>
+
+      <section class="section-head">
+        <div>
+          <p class="eyebrow">ACHIEVEMENTS</p>
+          <h2>Достижения</h2>
+        </div>
+      </section>
+      <section id="achievements" class="achievements"></section>
+
+      <section class="section-head">
+        <div>
+          <p class="eyebrow">BAKU CHECKLIST</p>
+          <h2>План отпуска</h2>
+        </div>
+      </section>
+      <section id="checklist" class="card checklist"></section>
+
+      <section class="card quote-card">
+        <p class="eyebrow">ФРАЗА ДНЯ</p>
+        <blockquote id="quoteText"></blockquote>
+        <button id="newQuoteBtn" class="primary-btn">Другая фраза</button>
+      </section>
+
+      <section class="card share-card">
+        <h2>Итоги одним сообщением</h2>
+        <p class="muted">Скопируй текущую статистику и отправь в общий чат.</p>
+        <button id="shareBtn" class="primary-btn">Поделиться итогами</button>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-head">
+        <h2>Настройки поездки</h2>
+        <button value="cancel" class="icon-btn">✕</button>
+      </div>
+      <label>
+        Имя гостя
+        <input id="guestNameInput" type="text" maxlength="30" />
+      </label>
+      <label>
+        Дата и время прилёта
+        <input id="arrivalInput" type="datetime-local" />
+      </label>
+      <label>
+        Дата и время вылета
+        <input id="departureInput" type="datetime-local" />
+      </label>
+      <button id="saveSettingsBtn" value="default" class="primary-btn">Сохранить</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
