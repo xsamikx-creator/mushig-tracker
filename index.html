@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0d12" />
+  <meta name="description" content="Mushig in Baku — Telegram Mini App для отсчёта и статистики отпуска" />
+  <title>Mushig in Baku</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div id="splash" class="splash" aria-live="polite">
+    <div class="splash-inner">
+      <div class="splash-logo">🇦🇿</div>
+      <div class="splash-title">MUSHIG SURVIVAL 2026</div>
+      <div id="splashPhrase" class="splash-phrase">Алигархия загружается...</div>
+      <div class="splash-track"><div id="splashFill" class="splash-fill"></div></div>
+      <div id="splashPercent" class="splash-percent">0%</div>
+    </div>
+  </div>
+  <div class="app">
+    <header class="hero panel">
+      <div class="hero-top">
+        <div>
+          <span class="kicker">🇦🇿 BAKU · SUMMER 2026</span>
+          <h1 id="heroTitle">MUSHIG IS COMING</h1>
+        </div>
+        <button id="openSettings" class="icon-button" type="button" aria-label="Настройки">⚙️</button>
+      </div>
+
+      <div id="userChip" class="user-chip" hidden></div>
+      <p id="countdownLabel" class="muted">До прилёта осталось</p>
+      <div id="countdown" class="countdown" aria-live="polite"></div>
+      <p id="datesLabel" class="dates"></p>
+
+      <div class="progress-block">
+        <div class="progress-caption"><span>Подготовка миссии</span><strong id="progressText">0%</strong></div>
+        <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Разделы">
+      <button class="tab active" data-tab="stats" type="button">Статистика</button>
+      <button class="tab" data-tab="log" type="button">История</button>
+      <button class="tab" data-tab="plan" type="button">План</button>
+    </nav>
+
+    <main>
+      <section id="tab-stats" class="tab-page active">
+        <div class="section-title">
+          <div><span class="kicker">LIVE COUNTERS</span><h2>Легендарная статистика</h2></div>
+          <button id="addCustom" class="ghost-button" type="button">+ Добавить</button>
+        </div>
+        <div id="statsGrid" class="stats-grid"></div>
+
+        <section class="panel meters">
+          <div class="meter-row">
+            <div><strong>Уровень трезвости</strong><span id="sobrietyValue">100%</span></div>
+            <div class="meter-track"><div id="sobrietyFill" class="meter-fill sobriety"></div></div>
+          </div>
+          <div class="meter-row">
+            <div><strong>Опасность вечеринки</strong><span id="partyValue">0%</span></div>
+            <div class="meter-track"><div id="partyFill" class="meter-fill party"></div></div>
+          </div>
+          <div class="meter-row">
+            <div><strong>Легендарность</strong><span id="legendValue">0</span></div>
+            <div class="meter-track"><div id="legendFill" class="meter-fill legend"></div></div>
+          </div>
+        </section>
+
+        <div class="section-title"><div><span class="kicker">ACHIEVEMENTS</span><h2>Достижения</h2></div></div>
+        <div id="achievements" class="achievements"></div>
+
+        <section class="panel phrase-panel">
+          <span class="kicker">ФРАЗА ДНЯ</span>
+          <blockquote id="phrase"></blockquote>
+          <button id="newPhrase" class="primary-button" type="button">Другая фраза</button>
+        </section>
+
+        <section class="panel dictionary-panel">
+          <div class="section-title compact"><div><span class="kicker">MUSHIG LANGUAGE</span><h2>Словарь Мушига</h2></div></div>
+          <div id="dictionary" class="dictionary"></div>
+        </section>
+
+        <section class="panel share-panel">
+          <h2>Итоги отпуска</h2>
+          <p class="muted">Собери текущую статистику в одно сообщение и отправь в общий чат.</p>
+          <button id="share" class="primary-button" type="button">Поделиться итогами</button>
+          <button id="reset" class="danger-button" type="button">Сбросить данные</button>
+        </section>
+      </section>
+
+      <section id="tab-log" class="tab-page">
+        <div class="section-title"><div><span class="kicker">EVENT LOG</span><h2>История событий</h2></div></div>
+        <div id="eventLog" class="event-log"></div>
+      </section>
+
+      <section id="tab-plan" class="tab-page">
+        <div class="section-title"><div><span class="kicker">BAKU CHECKLIST</span><h2>План отпуска</h2></div></div>
+        <section id="checklist" class="panel checklist"></section>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="settingsDialog">
+    <form class="dialog-card" method="dialog">
+      <div class="dialog-head"><h2>Настройки поездки</h2><button class="icon-button" value="cancel" type="submit">✕</button></div>
+      <label>Имя гостя<input id="guestName" maxlength="30" /></label>
+      <label>Прилёт<span class="date-input"><input id="arrival" type="datetime-local" /></span></label>
+      <label>Вылет<span class="date-input"><input id="departure" type="datetime-local" /></span></label>
+      <button id="saveSettings" class="primary-button" type="button">Сохранить</button>
+    </form>
+  </dialog>
+
+  <dialog id="customDialog">
+    <form class="dialog-card" method="dialog">
+      <div class="dialog-head"><h2>Новый счётчик</h2><button class="icon-button" value="cancel" type="submit">✕</button></div>
+      <label>Эмодзи<input id="customEmoji" maxlength="4" placeholder="🎯" /></label>
+      <label>Название<input id="customName" maxlength="40" placeholder="Например: Ночные прогулки" /></label>
+      <button id="saveCustom" class="primary-button" type="button">Добавить счётчик</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
